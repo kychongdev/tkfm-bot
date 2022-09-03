@@ -16,7 +16,7 @@ module.exports = {
 
     if (!isValid) {
       interaction.reply({
-        content: `<@!${interaction.user.id}> 笨蛋凱薩！你不要亂碰啦！(PERMISSION_DENIED - 你沒有使用指令的權限)`,
+        content: `<@!${interaction.user.id}> 請恕我無法執行此任務 (PERMISSION_DENIED - 你沒有使用指令的權限)`,
         ephemeral: true,
       });
     }
@@ -25,7 +25,7 @@ module.exports = {
   },
   showErrorReply(interaction, err) {
     interaction.reply({
-      content: `<@!${interaction.user.id}> 初四啦喵~找維修師看看啦喵！`,
+      content: `<@!${interaction.user.id}> 凱撒大人，任務失敗了...（請找維修師）`,
       ephemeral: true,
     });
     console.error(err);
