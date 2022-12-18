@@ -18,9 +18,11 @@ module.exports = {
       const potEmbedMsg = new EmbedBuilder()
         .setColor(0x0099ff)
         .setTitle("潛力測試")
-        .setTitle("Test")
+        .setTitle("潛力")
         .addFields({
-          name: "test",
+          name: `${interaction.options.getString(
+            "start"
+          )} - ${interaction.options.getString("end")} 的素材需求量`,
           value: pot(
             interaction.options.getString("start"),
             interaction.options.getString("end")
