@@ -53,40 +53,96 @@ client.on("interactionCreate", async (interaction) => {
   }
 });
 
-client.on(Events.MessageCreate, (message) => {
-  // // if (!message.guild) console.log("no guild");
-  // return; // If the message isn't in a guild return.
-  if (message.channel.id === "1020670177634943056") {
-    if (message.author.bot) {
-      console.log("bot");
-      return;
-    } // If the message is by a bot return.
-    // const msgLog = `[MESSAGE] [${message.guild.name}] [#${message.channel.name}] ${message.author.username}#${message.author.discriminator}: ${message.content}\n`; // You can change this to whatever you want.
-    // console.log(msgLog);
-    // let time = message.createdTimestamp.toString();
-    // let messageAttachment =
-    //   // message.attachments.size > 0 ? message.attachments[0].url : null;
-    let channel = client.channels.cache.get("986410134894940240"); // Replace CHANNEL ID with the channel ID you want the logs to go to.
+// client.on(Events.MessageCreate, (message) => {
+//   // // if (!message.guild) console.log("no guild");
+//   // return; // If the message isn't in a guild return.
+//   if (message.channel.id === "1020670177634943056") {
+//     if (message.author.bot) {
+//       console.log("bot");
+//       return;
+//     } // If the message is by a bot return.
+//     // const msgLog = `[MESSAGE] [${message.guild.name}] [#${message.channel.name}] ${message.author.username}#${message.author.discriminator}: ${message.content}\n`; // You can change this to whatever you want.
+//     // console.log(msgLog);
+//     // let time = message.createdTimestamp.toString();
+//     // let messageAttachment =
+//     //   // message.attachments.size > 0 ? message.attachments[0].url : null;
+//     let channel = client.channels.cache.get("1054372465188544552"); // Replace CHANNEL ID with the channel ID you want the logs to go to.
+//
+//     if (message.attachments > 0) {
+//       channel.send({
+//         files: [...message.attachments.values()],
+//         content: `[圖片] [${message.createdAt}] ${message.author.username}#${message.author.discriminator}發了${message.attachments.size}張圖片`,
+//       });
+//     }
+//     if (message.content) {
+//       const messageLog = new EmbedBuilder()
+//         .setColor(0x0099ff)
+//         .setTitle(message.channel.name)
+//         .setAuthor({
+//           name: `${message.author.username}#${message.author.discriminator}`,
+//           iconURL: message.author.avatarURL(),
+//         })
+//         .addFields({
+//           name: message.createdAt.toString(),
+//           value: message.content,
+//         });
+//       channel.send({ embeds: [messageLog] });
+//     }
+//   }
+// });
 
-    if (message.attachments > 0) {
+client.on(Events.MessageDelete, (message) => {
+  if (message.author.bot) {
+    console.log("bot");
+    return;
+  } // If the message is by a bot return.
+  if (message.channel.id === "1020670177634943056") {
+    let channel = client.channels.cache.get("1054372465188544552"); // Replace CHANNEL ID with the channel ID you want the logs to go to.
+    if (message.content === "已私") {
+      return;
+    }
+    const messageLog = `-----分割線-----\n[刪除訊息] \n頻道：#${
+      message.channel.name
+    } \n用戶：${message.author.username}#${
+      message.author.discriminator
+    } \n時間點：${message.createdAt
+      .toISOString()
+      .replace(/T/, " ") // replace T with a space
+      .replace(/\..+/, "")}`; // You can change this to whatever you want.
+
+    channel.send(messageLog);
+    if (message.content) {
+      // const messageLogEmbed = new EmbedBuilder()
+      //   .setColor(0x0099ff)
+      //   .setTitle(`在頻道 [${message.channel.name}] 刪除了以下訊息`)
+      //   .setAuthor({
+      //     name: `${message.author.username}#${message.author.discriminator}`,
+      //     iconURL: message.author.avatarURL(),
+      //   })
+      //   .addFields({
+      //     name: message.createdAt
+      //       .toISOString()
+      //       .replace(/T/, " ") // replace T with a space
+      //       .replace(/\..+/, ""),
+      //     value: message.content,
+      //   });
+
+      const messageContent = `訊息: \n${message.content}\n`;
+      // channel.send({ embeds: [messageLogEmbed] });
+
+      channel.send(messageContent);
+    }
+    if (message.attachments.size > 0) {
+      console.log(message.attachments);
       channel.send({
         files: [...message.attachments.values()],
-        content: `[圖片] [${message.createdAt}] ${message.author.username}#${message.author.discriminator}發了${message.attachments.size}張圖片`,
+        content: `[圖片] [${message.createdAt
+          .toISOString()
+          .replace(/T/, " ") // replace T with a space
+          .replace(/\..+/, "")}] ${message.author.username}#${
+          message.author.discriminator
+        }刪除了${message.attachments.size}張圖片`,
       });
-    }
-    if (message.content) {
-      const messageLog = new EmbedBuilder()
-        .setColor(0x0099ff)
-        .setTitle(message.channel.name)
-        .setAuthor({
-          name: `${message.author.username}#${message.author.discriminator}`,
-          iconURL: message.author.avatarURL(),
-        })
-        .addFields({
-          name: message.createdAt.toString(),
-          value: message.content,
-        });
-      channel.send({ embeds: [messageLog] });
     }
   }
 });
